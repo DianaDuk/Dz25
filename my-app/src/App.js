@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {EmojiList} from './components/EmojiList';
 import {Results} from './components/Result';
 import {ResetButton} from './components/Button'; 
@@ -15,17 +15,17 @@ function App() {
     setVotes(savedVotes);
   }, []);
 
-  const handleVote = (index) => {
+  const handleVote = useCallback((index) => {
     const newVotes = [...votes];
     newVotes[index]++;
     setVotes(newVotes);
     localStorage.setItem('emojiVotes', JSON.stringify(newVotes));
-  };
+  }, [votes]);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setVotes([0, 0, 0, 0, 0]);
     localStorage.removeItem('emojiVotes');
-  };
+  }, []);
 
   return (
     <div className="App">
